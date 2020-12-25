@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
+import java.net.URL;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -61,36 +62,45 @@ public class BaseTest {
 			 browserType =System.getProperty("Browser");
 		 }
 	
-		
+		if(driver==null){
 			
 					if("firefox".equalsIgnoreCase(browserType)){
-					
-					System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir")+"\\src\\test\\resources\\geckodriver.exe");
-					FirefoxOptions options = new FirefoxOptions();
-					options.setHeadless(true);
-					driver= new FirefoxDriver(options);
-		
+						FirefoxOptions options = new FirefoxOptions();
+					if("yes".equalsIgnoreCase(System.getProperty("remote"))){
+						driver= new RemoteWebDriver(new URL("http://192.168.0.8:4444/wd/hub"),options);
+					}else{
+						System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir")+"\\src\\test\\resources\\geckodriver.exe");
+						
+						//options.setHeadless(true);
+						driver= new FirefoxDriver(options);
+						
+					}
 			  
-			}
-			
-					else if("IE".equalsIgnoreCase(browserType)){
+			}else if("IE".equalsIgnoreCase(browserType)){
 				
 					System.out.println("i am inside IE");
 					 System.setProperty("webdriver.ie.driver", System.getProperty("user.dir")+"\\src\\test\\resources\\IEDriverServer_32.exe");
 					driver= new InternetExplorerDriver();
 				
-				}
-			
-				else if("Chrome".equalsIgnoreCase(browserType)){
-					System.setProperty("webdriver.chrome.driver",System.getProperty("user.dir")+"\\src\\test\\resources\\chromedriverwin.exe");
-						ChromeOptions options = new ChromeOptions();
-						if("headless".equalsIgnoreCase(System.getProperty("headless"))){
-				        options.addArguments("headless");
-				        options.addArguments("window-size=1200x600");
-						}
+				}else if("Chrome".equalsIgnoreCase(browserType)){
+					ChromeOptions options = new ChromeOptions();
+		
+					if("yes".equalsIgnoreCase(System.getProperty("remote"))){
+						driver= new RemoteWebDriver(new URL("http://192.168.0.8:4444/wd/hub"),options);
+				        
+						}else{
+							System.setProperty("webdriver.chrome.driver",System.getProperty("user.dir")+"\\src\\test\\resources\\chromedriverwin.exe");
 							
-					driver= new ChromeDriver(options);
-					
+							if("headless".equalsIgnoreCase(System.getProperty("headless"))){
+					        options.addArguments("headless");
+					        options.addArguments("window-size=1200x600");
+							driver= new ChromeDriver(options);
+						}else{
+							driver= new ChromeDriver(options);
+						}
+						}
+								
+						
 				}else if(System.getProperty("ExecuteOn").equalsIgnoreCase("saucelab")){
 					 String USERNAME = "roboticautomation";
 					   String ACCESS_KEY = "5a8cbd77-9240-46e2-bc4d-8db1a4190794";
@@ -104,6 +114,7 @@ public class BaseTest {
 				
 				}
 					
+		}
 					}
 	
 			
@@ -121,8 +132,9 @@ public class BaseTest {
 			extenttest.log(LogStatus.FAIL, "test case failed");
 			Util.failTestStep(driver, extenttest, "failed screen shot");
 		}
-		driver.close();
+		//driver.close();
 		driver.quit();
+		driver=null;
 		
 	}
 	

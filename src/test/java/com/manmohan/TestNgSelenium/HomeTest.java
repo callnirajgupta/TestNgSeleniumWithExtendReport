@@ -28,8 +28,29 @@ public class HomeTest extends BaseTest {
 		Util.PassTestStep(driver, extenttest, "gmail open sucessfully");
 		//LoginPOM.validatetitle(driver);
 		//driver.get("http://www.yahoo.com");
-		Util.PassTestStep(driver, extenttest, "yahoo opened sucessfully");
-		Util.getscreenshot(driver);
+		//Util.PassTestStep(driver, extenttest, "yahoo opened sucessfully");
+		//Util.getscreenshot(driver);
+		
+	}
+	
+	@Test
+	public void test44() throws IOException{
+		driver.get("http://www.flipkart.com");
+		Util.PassTestStep(driver, extenttest, "pass");
+		//LoginPOM.validatetitleYahoo(driver);
+		//Util.PassTestStep(driver, extenttest, "pass");
+		//Util.getscreenshot(driver);
+		
+	}	
+	
+	@Test
+	public void test55() throws IOException{
+		driver.get("http://www.gmail.com");
+		Util.PassTestStep(driver, extenttest, "gmail open sucessfully");
+		//LoginPOM.validatetitle(driver);
+		//driver.get("http://www.yahoo.com");
+		//Util.PassTestStep(driver, extenttest, "yahoo opened sucessfully");
+		//Util.getscreenshot(driver);
 		
 	}
 	
@@ -37,14 +58,15 @@ public class HomeTest extends BaseTest {
 	public void test2() throws IOException{
 		driver.get("http://www.flipkart.com");
 		Util.PassTestStep(driver, extenttest, "pass");
-		LoginPOM.validatetitleYahoo(driver);
-		Util.PassTestStep(driver, extenttest, "pass");
-		Util.getscreenshot(driver);
+		//LoginPOM.validatetitleYahoo(driver);
+		//Util.PassTestStep(driver, extenttest, "pass");
+		//Util.getscreenshot(driver);
+		
 	}	
-	
 	@AfterTest
 	public void aftermethod(){
 		//driver.close();
+		
 		//driver.quit();
 	}
 

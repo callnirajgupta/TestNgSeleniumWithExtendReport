@@ -10,36 +10,35 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-public class LoginTest {
-	private WebDriver driver;
+public class LoginTest extends BaseTest {
+
 	
 	@BeforeTest
 	public void beforeMethod(){
-		System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir")+"//src//test//resources//chromedriverwin.exe");
-		driver= new ChromeDriver();
+		
 		
 		
 	}
 	
 	@Test
-	public void test1() throws IOException{
+	public void test4() throws IOException{
 		driver.get("http://www.amazon.com");
-		LoginPOM.validatetitle(driver);
+		//LoginPOM.validatetitle(driver);
 		Util.getscreenshot(driver);
 		
 	}
 	
 	@Test
-	public void test2() throws IOException{
+	public void test3() throws IOException{
 		driver.get("http://www.yahoo.com");
-		LoginPOM.validatetitleYahoo(driver);
-		Util.getscreenshot(driver);
+		//LoginPOM.validatetitleYahoo(driver);
+		//Util.getscreenshot(driver);
 	}
 	
 	@AfterTest
 	public void aftermethod(){
-		driver.close();
-		driver.quit();
+		//driver.close();
+		//driver.quit();
 	}
 
 }
