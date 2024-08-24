@@ -6,6 +6,7 @@ import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -14,6 +15,7 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
@@ -39,8 +41,11 @@ public class BaseTest {
 	
 	
 	@BeforeSuite()
-	public void initialSetup(){
-		reportName = System.getProperty("user.dir")+"/target/test-report.html";
+	@Parameters({"reportPath"})
+	public void initialSetup(String reportPath, ITestContext context){
+
+		context.setAttribute("reportPath",reportPath);
+		reportName = System.getProperty("user.dir")+"/target/"+reportPath+"test-report.html";
 		report=new ExtentReports(reportName);
 		
 		File ScreenShotDir= new File(System.getProperty("user.dir")+"//snap//");
@@ -69,7 +74,8 @@ public class BaseTest {
 					if("yes".equalsIgnoreCase(System.getProperty("remote"))){
 						driver= new RemoteWebDriver(new URL("http://192.168.0.8:4444/wd/hub"),options);
 					}else{
-						System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir")+"\\src\\test\\resources\\geckodriver.exe");
+						WebDriverManager.firefoxdriver().setup();
+						//System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir")+"\\src\\test\\resources\\geckodriver.exe");
 						
 						//options.setHeadless(true);
 						driver= new FirefoxDriver(options);
@@ -79,7 +85,8 @@ public class BaseTest {
 			}else if("IE".equalsIgnoreCase(browserType)){
 				
 					System.out.println("i am inside IE");
-					 System.setProperty("webdriver.ie.driver", System.getProperty("user.dir")+"\\src\\test\\resources\\IEDriverServer_32.exe");
+						WebDriverManager.edgedriver().setup();
+					// System.setProperty("webdriver.ie.driver", System.getProperty("user.dir")+"\\src\\test\\resources\\IEDriverServer_32.exe");
 					driver= new InternetExplorerDriver();
 				
 				}else if("Chrome".equalsIgnoreCase(browserType)){
@@ -89,7 +96,8 @@ public class BaseTest {
 						driver= new RemoteWebDriver(new URL("http://192.168.0.8:4444/wd/hub"),options);
 				        
 						}else{
-							System.setProperty("webdriver.chrome.driver",System.getProperty("user.dir")+"\\src\\test\\resources\\chromedriverwin.exe");
+						WebDriverManager.chromedriver().setup();
+							//System.setProperty("webdriver.chrome.driver",System.getProperty("user.dir")+"\\src\\test\\resources\\chromedriverwin.exe");
 							
 							if("headless".equalsIgnoreCase(System.getProperty("headless"))){
 					        options.addArguments("headless");
